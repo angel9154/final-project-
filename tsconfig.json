@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es5", // Target JavaScript version
+    "module": "esnext", // Module system
+    "jsx": "react-jsx", // Handle JSX
+    "outDir": "./dist", // Output directory for compiled files
+    "rootDir": "./src", // Source directory
+    "strict": true, // Enable strict type-checking
+    "esModuleInterop": true, // Enable ES module interop
+    "skipLibCheck": true, // Skip library checks
+    "forceConsistentCasingInFileNames": true, // Ensure consistent file naming
+    "moduleResolution": "node", // Use Node.js-style module resolution
+    "resolveJsonModule": true, // Allow importing JSON files
+    "isolatedModules": true, // Ensure files can be compiled independently
+    "noEmitOnError": true // Don't emit files if there are errors
+  },
+  "include": ["src"], // Include all files in the src directory
+  "exclude": ["node_modules"] // Exclude node_modules
+}
