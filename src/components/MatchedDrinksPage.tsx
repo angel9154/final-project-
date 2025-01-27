@@ -3,7 +3,9 @@ import { Drink } from '../types/types';
 
 export const MatchedDrinksPage = () => {
   const location = useLocation();
-  const { matchedDrinks = [], suggestedDrinks = [] } = location.state || {};
+  const { matchedDrinks = [], suggestedDrinks = [] } = location.state || {}; 
+  // we are extracting data from another page and passing it to this page 
+  // by using location.state 
  
   if (matchedDrinks.length === 0 && suggestedDrinks.length === 0) {
     return <div>No matches found! <Link to="/">Go back</Link></div>;

@@ -12,7 +12,7 @@ export const LiquorSelector = () => {
   const handleSubmit = () => {
     if (selectedLiquor && prefersSweet !== null) {
       navigate("/drink-matcher", { 
-        state: { 
+        state: { // this is passing data to the next page
           selectedLiquor,
           prefersSweet 
         } 
@@ -22,13 +22,14 @@ export const LiquorSelector = () => {
 
   return (
     <div className="container mt-5"> {/* 1. Add Bootstrap container & margin-top */}
-      <h2 className="text-center mb-4">Build Your Drink Profile</h2>
+      <h2 className="text-center mb-4">Ready to Get Drunk?</h2>
       
       {/* Liquor Selection */}
       <div className="mb-3">
         <label>What type are person you are interested in:</label>
         <select
-        className={`form-select ${!selectedLiquor ? 'is-invalid' : 'is-valid'}`}
+        className={`form-select ${!selectedLiquor ? 'is-invalid' : 'is-valid'}`} // this is adding bootstrap classes if 
+        // if the user has not selected a liquor or if the liquor is invalid it will throw a warning 
           value={selectedLiquor}
           onChange={(e) => setSelectedLiquor(e.target.value)}
         >

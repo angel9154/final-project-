@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { DrinkMatcher } from './components/DrinkMatcher';
+import { DrinkMatcher } from './DrinkMatcher/DrinkMatcher';
 import { MatchedDrinksPage } from './components/MatchedDrinksPage';
 import { LiquorSelector } from './components/LiquorSelector';
 import './App.css';
