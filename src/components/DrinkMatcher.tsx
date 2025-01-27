@@ -5,7 +5,8 @@ import { Drink, ApiDrink } from "../types/types";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
 // import { drinksData } from "../data/drinkdata"
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export const DrinkMatcher = () => {
   
@@ -35,7 +36,7 @@ export const DrinkMatcher = () => {
           );
 
       // Transform API data to match Drink type
-      const newDrinks: Drink[] = responses.map(res => {
+      const newDrinks: Drink[] = responses.map(res => {  // Extract the first drink object from the API response
         const apiDrink: ApiDrink = res.data.drinks[0];
         return {
           idDrink: apiDrink.idDrink,
@@ -44,15 +45,18 @@ export const DrinkMatcher = () => {
           strPicture: apiDrink.strDrinkThumb,
           // Map ingredients 1-15, adjust based on your needs
           ...Object.fromEntries(
-            Array.from({ length: 15 }, (_, i) => i + 1).map(i => [
-              `strIngredient${i}`,
-              apiDrink[`strIngredient${i}`]
-            ])
+            Array.from({ length: 15 }, (_, i) => {
+              const index = i + 1;
+              return [
+                [`strIngredient${index}`, apiDrink[`strIngredient${index}`]],
+                [`strMeasure${index}`, apiDrink[`strMeasure${index}`]]
+              ];
+            }).flat()
           )
         } as Drink;
       });
 
-      setFetchedDrinks(prev => [...prev, ...newDrinks]);
+      setFetchedDrinks(prev => [...prev, ...newDrinks]); // creates an array and merges it with the old array
     } catch (error) {
       console.error("Error fetching drinks:", error);
     } finally {
@@ -169,62 +173,90 @@ export const DrinkMatcher = () => {
           // Handled by useEffect to fetch more drinks
         }
       };
-    
+  
+ 
 
-      return (
-        
-        <div>
-          <div className="preference-display">
-            <h2>Current Preferences:</h2>
-            <p>Base Spirit: {selectedLiquor}</p>
-            <p>Sweet Preference: {prefersSweet ? "Yes 🍭" : "No 🥃"}</p>
-          </div>
-      
-          {loading ? (
-            <div>Loading drinks...</div>
-          ) : (
-            currentDrink && (
-              <div>
-                <h2>{currentDrink.strDrink}</h2>
-                {currentDrink.strPicture && (
-                  <img 
-                    src={currentDrink.strPicture} 
-                    alt={currentDrink.strDrink}
-                    style={{ maxWidth: '200px', height: 'auto' }}
-                  />
-                )}
-                <p>{currentDrink.strInstructions}</p>
-                <h3>Ingredients:</h3>
-                <ul>
-                  {Array.from({ length: 15 }, (_, i) => i + 1).map(i => {
-                    const ingredient = currentDrink[`strIngredient${i}`];
-                    return ingredient ? (
-                      <li key={i}>
-                        {ingredient} – {currentDrink[`strMeasure${i}`]}
-                      </li>
-                    ) : null;
-                  })}
-                </ul>
-                <button 
-                  onClick={handleMatch} 
-                  disabled={!selectedLiquor || !currentDrink}
-                >
-                  Match
-                </button>
-                <button onClick={moveToNextDrink}>Skip</button>
-              </div>
-            )
-          )}
-       <div style={{ color: 'red', padding: '1rem' }}>
-      Debug Info:<br />
-      Suggested Drinks Count: {suggestedDrinks.length}<br />
-      Last Suggested Drink: {suggestedDrinks[suggestedDrinks.length - 1]?.strDrink}
+
+
+
+
+return (
+  <div className="container-fluid" style={{ minHeight: '100vh' }}>
+    {/* Preferences Header */}
+    <div className="text-center py-3 bg-light">
+      <h2 className="mb-1">Current Interests</h2>
+      <p className="mb-0 text-muted">
+        {selectedLiquor} • {prefersSweet ? "Sweet 🍭" : "Dry 🥃"}
+      </p>
     </div>
-          <Link to="/matched-drinks" state={{ matchedDrinks, suggestedDrinks }}>
-            View Matched Drinks ({matchedDrinks.length})
-          </Link>
+
+    {/* Drink Card */}
+    {loading ? (
+      <div className="text-center mt-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Searching for more drinks...</span>
         </div>
-      );
+      </div>
+    ) : currentDrink ? (
+      <div className="swipe-card card">
+        <div className="image-container">
+          <img 
+            src={currentDrink.strPicture} 
+            className="card-img"
+            alt={currentDrink.strDrink}
+          />
+        </div>
+        
+        <div className="card-body">
+          <h2 className="card-title mb-3">{currentDrink.strDrink}</h2>
+          
+          <div className="mb-4 ingredients-container">
+            <h5>Interested in:</h5>
+            <div className="d-flex flex-wrap gap-2">
+              {Array.from({ length: 15 }, (_, i) => {
+                const ingredient = currentDrink[`strIngredient${i + 1}`];
+                return ingredient ? (
+                  <span 
+                    key={i}
+                    className="badge bg-primary rounded-pill"
+                  >
+                    {ingredient}
+                  </span>
+                ) : null;
+              })}
+            </div>
+          </div>
+          
+          <div className="instructions-container">
+            {/* <p className="card-text">{currentDrink.strInstructions}</p> */}
+          </div>
+        </div>
+
+        {/* Action Buttons - Now positioned correctly */}
+        <div className="action-buttons">
+          <button className="skip-btn" onClick={moveToNextDrink}>
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+          <button 
+            className="heart-btn" 
+            onClick={handleMatch}
+            disabled={!selectedLiquor || !currentDrink}
+          >
+            <FontAwesomeIcon icon={faHeart} />
+          </button>
+        </div>
+      </div>
+    ) : null}
+   <Link to="/matched-drinks" state={{ matchedDrinks, suggestedDrinks }}>
+            View Matched Drinks
+          </Link>
+    {/* Debug Info - Make it less prominent */}
+    <div className="fixed-bottom text-end small text-muted pe-3">
+     Potential Matches: {suggestedDrinks.length} • 
+      Matched: {matchedDrinks.length}
+    </div>
+  </div>
+);
     };
 
 
