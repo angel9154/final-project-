@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 // In LiquorSelector.tsx
 export const LiquorSelector = () => {
   const [selectedLiquor, setSelectedLiquor] = useState("");
-  const [prefersSweet, setPrefersSweet] = useState<boolean | null>(null);
+  const [prefersSweet, setPrefersSweet] = useState<boolean | null>(null); // remember this prefersSweet might not have a value 
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -34,7 +34,7 @@ export const LiquorSelector = () => {
           onChange={(e) => setSelectedLiquor(e.target.value)}
         >
           <option value="">Select your type</option>
-          <option value="Rum">"i am a Caribbean person that loves beaches."</option>
+          <option value="Rum">"I am a Caribbean person that loves beaches."</option>
           <option value="Gin">"I'm a refined rebel crafting botanical elegance."</option>
           <option value="Tequila">"I'm a fiery soul chasing sun-baked adventures."</option>
           <option value="Whiskey">"I'm a rugged romantic aged in oak-kissed wisdom."</option>
@@ -50,8 +50,8 @@ export const LiquorSelector = () => {
       <label className="form-label">What type of person are you interested in?</label>
         <select
          className={`form-select ${prefersSweet === null ? 'is-invalid' : 'is-valid'}`}
-          value={String(prefersSweet)}
-          onChange={(e) => setPrefersSweet(e.target.value === 'true')}
+          value={String(prefersSweet)} // converts boolean value into string 
+          onChange={(e) => setPrefersSweet(e.target.value === 'true')} // if the value is true it will set the state to true
         >
           <option value="null">Choose...</option>
           <option value="true">I am interested in sweetness! 🍭</option>

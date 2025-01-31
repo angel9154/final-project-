@@ -11,8 +11,8 @@ export const matchDrink = (
 // ? is a chaning that helps prevent errors if selectedLiquor is undefined
 // the reason for having a or empty string is to make sure that the program does not crash if selectedLiquor is undefined
   const normalizedLiquor = selectedLiquor?.toLowerCase() || '';
-  const validLiquors = ingredientMappings[normalizedLiquor] || [normalizedLiquor];
-  const sweetIngredients = ingredientMappings.sugar || [];
+  const validLiquors = ingredientMappings[normalizedLiquor] || [normalizedLiquor]; // checks custom liquors first then base liquour last 
+  const sweetIngredients = ingredientMappings.sugar || []; // put an empty array here if you do not have any sweet ingredients
 
 // .some() is a javascript method that checks if at least one of the 
 //elemements sastifies the given condition and then stops the loop 
@@ -31,7 +31,7 @@ export const matchDrink = (
 // and check what drinks are sweet to even though there is no base liquour
 // if user does not want sweet it will check if the drink does not have any sweet ingredients
 
-  const hasSweetMatch = prefersSweet !== null ? prefersSweet ?
+  const hasSweetMatch = prefersSweet !== null ? prefersSweet ? 
   // fisrt loop is used if prefersSweet is true
     sweetIngredients.some(sweetener => {
       for (let i = 1; i <= 15; i++) {
@@ -45,9 +45,9 @@ export const matchDrink = (
       for (let i = 1; i <= 15; i++) {
         const drinkIngredient = drink[`strIngredient${i}`]?.toLowerCase();
         if (drinkIngredient?.includes(sweetener.toLowerCase())) return true;
-      }
+      } // needed to put drink ingredient optional becuase some api ingredients are null and where givng an error
       return false;
-    }): false;
+    }): false; // short hand of an if statement is just making the hasSweetMatch variable false
 
   return {
     isMatch: hasLiquorMatch && hasSweetMatch,

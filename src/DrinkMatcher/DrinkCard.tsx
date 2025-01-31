@@ -5,12 +5,14 @@ import { Drink } from '../types/types';
 
 interface DrinkCardProps {
   drink: Drink;
+  // the purpouse of using the typescript type void is to specify that the function will not return anything
   onSkip: () => void; // callback function to be called when the user skips the drink.
   onMatch: () => void; // callback function to be called when the user matches the drink.
   disabled: boolean; // this lets the parent component know if the heart button should be disabled
 }
 
-export const DrinkCard: React.FC<DrinkCardProps> = ({ 
+export const DrinkCard: React.FC<DrinkCardProps> = ({  // this is a  reactfunctional component that is taking in the 
+    // drink, onSkip, onMatch, and disabled props created before 
   drink, 
   onSkip, 
   onMatch, 

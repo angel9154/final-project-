@@ -8,6 +8,7 @@ import { DrinkCard } from './DrinkCard';
 export const DrinkMatcher: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // did not had to use useMemo here it is overkill but i am going to leave it for future reference 
   // useMemo is a way for the program to save cache so it does not have to rewrite the information when location.state changes
  // location.state is an object in react router that contains data from the previous page and transfer its to another page 
   // Drink is a type annotation that make sure that every drink object is a string
@@ -23,7 +24,7 @@ export const DrinkMatcher: React.FC = () => {
     if (!selectedLiquor) {
       navigate('/');
     }
-  }, [selectedLiquor, navigate]);
+  }, [selectedLiquor, navigate]); // this will make the component re run 
 
   useEffect(() => {
     fetchDrinks();
@@ -104,8 +105,8 @@ export const DrinkMatcher: React.FC = () => {
         />
         // the purpouse of null is to make sure that the component will not render if the currentDrink is null
       ) : null} 
-
-      <Link to="/matched-drinks" state={{ matchedDrinks, suggestedDrinks }}>
+{/* passes the state to the next page  */}
+      <Link to="/matched-drinks" state={{ matchedDrinks, suggestedDrinks }}> 
         View Matched Drinks
       </Link>
 

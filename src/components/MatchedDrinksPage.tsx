@@ -47,7 +47,7 @@ export const MatchedDrinksPage = () => {
           <div style={{ marginTop: '1rem' }}>
             <h4>I am this type of person…:</h4>
             {Array.from({ length: 15 }).map((_, i) => {
-              const ingredient = drink[`strIngredient${i + 1}`];
+              const ingredient = drink[`strIngredient${i + 1}`]; // the +1 is to make sure that the index starts at 1
               if (!ingredient) return null;
               const measure = drink[`strMeasure${i + 1}`] || '';
               return (
@@ -85,7 +85,7 @@ export const MatchedDrinksPage = () => {
     }}>
       {suggestedDrinks.map((drink: Drink) => (
         <div
-          key={drink.idDrink}
+          key={drink.idDrink} // if this was not here than react would not know which drink to render
           style={{
             border: '1px solid #ddd',
             borderRadius: '8px',

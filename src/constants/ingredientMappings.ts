@@ -1,4 +1,5 @@
-export const ingredientMappings: Record<string, string[]> = {
+export const ingredientMappings: Record<string, string[]> = { // the reason we are using string twice
+    // is because we have a key that is a string and then an array of strings that is a string as well
     rum: ["light rum", "dark rum", "coconut rum", "spiced rum", "151 proof rum", "Añejo rum", "Cachaca", "rum", "spiced rum"],
     gin: ["gin"],
     tequila: ["tequila", "mezcal"],
